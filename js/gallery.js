@@ -111,7 +111,6 @@ gallery.addEventListener("click", (event) => {
         instance.close()
         document.removeEventListener('keydown', handler)
       } 
-      console.log(event.key);
     }
   }
 });
