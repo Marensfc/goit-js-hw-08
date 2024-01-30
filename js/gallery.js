@@ -88,8 +88,25 @@ gallery.insertAdjacentHTML("beforeend", markup);
 gallery.addEventListener("click", (event) => {
   if (event.target.nodeName === "A" || event.target.nodeName === "IMG") {
     event.preventDefault();
-  } else if(event.target === event.currentTarget) return;
+    showModal();
+  } else if (event.target === event.currentTarget) return;
 
-  const closestLink = event.target.closest('a');
-  console.log(closestLink.href);
+  function showModal() {
+    const closestLink = event.target.closest("a");
+
+    const instance = basicLightbox.create(`
+    <img src="${closestLink.href}" />`);
+
+    instance.show();
+
+    document.addEventListener('keydown', handler)
+
+    function handler (event) {
+      if(event.key === 'Escape') {
+        instance.close()
+        document.removeEventListener('keydown', handler)
+      }
+      console.log(event.key);
+    }
+  }
 });
