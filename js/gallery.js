@@ -100,12 +100,18 @@ gallery.addEventListener("click", (event) => {
     instance.show();
 
     document.addEventListener('keydown', handler)
+    const elem = instance.element()
+
+    elem.addEventListener('click', () => {
+      document.removeEventListener('keydown', handler)
+    })
 
     function handler (event) {
       if(event.key === 'Escape') {
         instance.close()
         document.removeEventListener('keydown', handler)
-      }
+      } 
+      console.log(event.key);
     }
   }
 });
