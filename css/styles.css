@@ -18,9 +18,14 @@ img {
     margin-top: 50px;
 }
 
-.gallery > li {
+.gallery-item {
     height: 200px;
     width: calc((100% - 48px) / 3);
+    transition: transform 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
 }
 
 .gallery-link {
