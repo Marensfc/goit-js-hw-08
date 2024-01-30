@@ -86,31 +86,35 @@ const markup = images
 gallery.insertAdjacentHTML("beforeend", markup);
 
 gallery.addEventListener("click", (event) => {
-  if (event.target.nodeName === "A" || event.target.nodeName === "IMG") {
-    event.preventDefault();
-    showModal();
-  } else if (event.target === event.currentTarget) return;
+  event.preventDefault();
+  if (event.target === event.currentTarget) return;
 
-  function showModal() {
-    const closestLink = event.target.closest("a");
-
-    const instance = basicLightbox.create(`
-    <img src="${closestLink.href}" />`);
-
-    instance.show();
-
-    document.addEventListener('keydown', handler)
-    const elem = instance.element()
-
-    elem.addEventListener('click', () => {
-      document.removeEventListener('keydown', handler)
-    })
-
-    function handler (event) {
-      if(event.key === 'Escape') {
-        instance.close()
-        document.removeEventListener('keydown', handler)
-      } 
-    }
+  const target = event.target;
+  if (target.nodeName === "IMG") {
+    const value = target.dataset.source;
+    showModal(value);
   }
 });
+
+function showModal(value) {
+  const instance = basicLightbox.create(
+    `
+  <img src="${value}" />`,
+    {
+      onShow: (instance) => {
+        document.addEventListener("keydown", handler);
+      },
+      onClose: (instance) => {
+        document.removeEventListener("keydown", handler);
+      },
+    }
+  );
+
+  instance.show();
+
+  function handler(event) {
+    if (event.key === "Escape") {
+      instance.close();
+    }
+  }
+}
